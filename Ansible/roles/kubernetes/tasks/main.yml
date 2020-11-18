@@ -2,7 +2,7 @@
   hosts: lukas
   become: true
   vars_files: 
-    - ./vars_kubern.yml
+    - ../vars/main.yml
 
   
   tasks:
