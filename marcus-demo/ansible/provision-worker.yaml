@@ -1,0 +1,4 @@
+- hosts: all
+  roles:
+    - install-worker
+    - configure-worker
