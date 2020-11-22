@@ -1,0 +1,39 @@
+- name: Disable swap
+  shell: swapoff -a
+
+- name: Disable swap permanently (modify /etc/fstab)
+  replace:
+    path: /etc/fstab
+    regexp: '^(.*swap.*)$'
+    backup: yes
+    replace: '#\1'
+
+- name: set net.ipv4.ip_forward to 1
+  become: yes
+  retries: 2
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    state: present
+
+- name: add Kubernetes apt-key
+  become: yes
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: add Kubernetes' APT repository
+  become: yes
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: 'kubernetes'
+
+- name: "Install kubeadm and dependencies"
+  become: yes
+  apt:
+    pkg:
+      - kubelet={{ kubernetes_version }}
+      - kubeadm={{ kubernetes_version }}
+      - kubectl={{ kubernetes_version }}
+    state: present

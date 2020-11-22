@@ -1,0 +1,3 @@
+# install tasks for all nodes in the cluster
+- import_tasks: docker.yaml
+- import_tasks: k8s.yaml

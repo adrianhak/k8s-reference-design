@@ -1,0 +1,36 @@
+  
+- name: add Docker apt-key
+  become: yes
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: add Docker's APT repository
+  become: yes
+  apt_repository:
+    repo: deb https://download.docker.com/linux/debian buster stable
+    state: present
+    filename: 'docker'
+
+- name: Install Docker with specific version
+  become: yes
+  apt:
+    pkg:
+      - docker-ce
+    state: present
+    update_cache: yes
+
+- name: adding existing user "{{ ansible_user }}" to group docker
+  become: yes
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+- name: Start docker service
+  become: yes
+  systemd:
+    name: docker
+    state: started
+    daemon_reload: yes
+    enabled: yes

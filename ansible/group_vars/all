@@ -1,0 +1,3 @@
+kubernetes_version: 1.18.0-00
+pod_network_cidr: 10.244.0.0/16
+kubeadm_token: sw4xjw.xfar3wciairc2n7o
