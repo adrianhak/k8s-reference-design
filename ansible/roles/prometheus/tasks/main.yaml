@@ -1,0 +1,3 @@
+- import_tasks: prometheus-operator.yaml
+- import_tasks: kube-state-metrics.yaml
+- import_tasks: prometheus.yaml

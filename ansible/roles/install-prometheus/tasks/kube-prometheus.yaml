@@ -1,0 +1,19 @@
+# create namespace
+- name: "create namespace"
+  shell: "kubectl create namespace monitoring"
+
+# add chart repo
+- name: "add chart repo"
+  shell: "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts"
+
+# add helm stable repo
+# - name: "add helm stable repo"
+#  shell: "helm repo add stable https://charts.helm.sh/stable"
+
+# update repos
+- name: "update repos"
+  shell: "helm repo update"
+
+# install kube-prometheus
+- name: "install kube-prometheus"
+  shell: "helm install kube-prometheus --namespace monitoring prometheus-community/kube-prometheus-stack"

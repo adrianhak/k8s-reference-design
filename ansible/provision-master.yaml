@@ -2,3 +2,4 @@
   roles:
     - common
     - configure-master
+    - install-prometheus
