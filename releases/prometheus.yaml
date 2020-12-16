@@ -10,7 +10,3 @@ spec:
     name: kube-prometheus-stack
     version: 9.4.3
     forceUpgrade: true
-  valuesFrom:
-    - configMapKeyRef:
-        name: prometheus-config
-        namespace: monitoring
