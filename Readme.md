@@ -1,2 +1,2 @@
-# This is a projekt
+# This is a cursed projekt
 :)
