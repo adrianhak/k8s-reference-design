@@ -1,0 +1,47 @@
+# create kubernetes direct
+- name: Create logging directory
+  become: yes
+  file: 
+    path: kubernetes/logging
+    state: directory
+    mode: 0755
+  #path=kubernetes/logging state=directory mode=0755
+
+
+# copy yaml files
+- name: prepare logfiles on instance
+  become: yes
+  copy:
+    src: logging
+    dest: kubernetes
+
+######################
+# Add helm repo!!!!!
+######################
+# helm repo add elastic https://helm.elastic.co
+
+# creates the namespace for logs
+- name: create logging namespace
+  shell: kubectl create -f kubernetes/logging/namespace.yaml
+
+# # starts the elasticsearch service
+# - name: create elasticsearch service
+#   shell: kubectl create -f kubernetes/logging/elasticsearch/values.yaml -n kube-logging
+
+# Does not work without HELM
+- name: Create elasticsearch cluster
+  shell: helm install elasticsearch elastic/elasticsearch -f kubernetes/logging/elasticsearch/values.yaml -n kube-logging
+
+# Not dependant on HELM, but needs elasticsearch
+- name: Setup fluentD daemonset
+  shell: kubectl apply -f kubernetes/logging/fluentd/fluentd.yaml -n kube-logging
+
+# Also needs helm
+- name: Setup kibana
+  shell: helm install kibana elastic/kibana -f kibana/values.yaml -n kube-logging
+
+- name: Create counter
+  shell: kubectl create -f kubernetes/logging/count.yaml -n kube-logging
+
+# PORTFORWARDING
+# kubectl port-forward svc/kibana-kibana 5601 -n kube-logging
