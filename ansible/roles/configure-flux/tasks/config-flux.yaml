@@ -1,0 +1,46 @@
+# install fluxctl
+- name: install fluxctl
+  become: yes
+  shell: snap install fluxctl --classic
+
+# add fluxcd repo
+- name: add fluxcd repo
+  become: yes
+  shell: helm repo add fluxcd https://charts.fluxcd.io
+
+
+# add crds
+- name: add crds
+  become: yes
+  shell: kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
+
+# - create the flux namespace
+- name: create ns flux
+  become: yes
+  shell: kubectl create namespace flux
+
+  # - install flux
+- name: install flux
+  become: yes
+  shell: helm upgrade -i flux --set git.url=git@github.com:{{ ghuser }}/{{ repo_name }} --set git.branch={{ git_branch }} --set git.path=releases --namespace flux fluxcd/flux
+
+  # - install helm operator
+- name: install helm operator
+  become: yes
+  shell: helm upgrade -i helm-operator --set git.ssh.secretName={{ secret_name }} --namespace flux fluxcd/helm-operator --set helm.versions=v3
+
+# wait for flux to be deployed
+- name: wait for pods to come up
+  shell: kubectl get pods -n flux -o json
+  register: kubectl_get_pods
+  until: kubectl_get_pods.stdout|from_json|json_query('items[*].status.phase')|unique == ["Running"]
+
+- name: pront key
+  become: yes
+  shell: fluxctl identity --k8s-fwd-ns flux
+  register: output
+
+- name: copy key to file
+  copy:
+    content: "{{ output.stdout }}"
+    dest: "~/flux-keys/{{ secret_name }}.txt"

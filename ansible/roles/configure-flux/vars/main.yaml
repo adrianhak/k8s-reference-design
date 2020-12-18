@@ -1,0 +1,4 @@
+ghuser: adrianhak
+repo_name: flux-test-repo
+secret_name: flux-git-deploy
+git_branch: monitoring

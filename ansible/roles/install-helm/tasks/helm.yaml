@@ -9,11 +9,3 @@
 # install helm
 - name: "install helm"
   shell: "./get_helm.sh"
-
-# create namespace
-- name: "create namespace"
-  shell: "kubectl create namespace monitoring"
-
-# update repos
-- name: "update repos"
-  shell: "helm repo update"
