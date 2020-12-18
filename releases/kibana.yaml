@@ -1,0 +1,12 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: kube-kibana
+  namespace: logging
+spec:
+  chart:
+    helmVersion: v3
+    repository: https://github.com/elastic/kibana
+    name: kube-kibana
+    version: 7.10.1
+    forceUpgrade: true
