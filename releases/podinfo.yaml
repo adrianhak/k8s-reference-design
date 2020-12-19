@@ -8,3 +8,7 @@ spec:
     repository: https://stefanprodan.github.io/podinfo
     name: podinfo
     version: 5.1.2
+  values:
+    serviceMonitor:
+      enabled: true
+
