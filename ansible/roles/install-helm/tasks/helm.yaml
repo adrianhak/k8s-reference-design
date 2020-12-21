@@ -1,11 +1,12 @@
 # download helm
 - name: "download helm"
-  shell: "curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3"
-
-# set permissions
-- name: "set permissions"
-  shell: "chmod 700 get_helm.sh"
+  become: yes
+  get_url:
+    url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+    mode: 700
+    dest: "/tmp/get_helm.sh"
 
 # install helm
 - name: "install helm"
-  shell: "./get_helm.sh"
+  become: yes
+  shell: "/tmp/get_helm.sh"

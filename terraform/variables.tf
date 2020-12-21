@@ -23,7 +23,6 @@ variable "ssh_key_private" {
 
 variable "ssh_access_cidr_block" {
   type        = string
-  default     = "46.239.113.55/32"
   description = "IPs allowed to access master nodes via SSH"
 }
 

@@ -36,7 +36,7 @@ resource "aws_security_group" "kubernetes_masters" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [data.aws_vpc.selected.cidr_block]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -94,7 +94,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "kubernetes_masters" {
   count                  = var.master_node_count
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t3.micro"
+  instance_type          = "t3.small"
   subnet_id              = element(tolist(data.aws_subnet_ids.public.ids), count.index)
   vpc_security_group_ids = [aws_security_group.kubernetes_masters.id]
   key_name               = var.aws_instance_key_name
@@ -109,7 +109,7 @@ resource "aws_instance" "kubernetes_masters" {
 resource "aws_instance" "kubernetes_workers" {
   count                  = var.worker_node_count
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t3.micro"
+  instance_type          = "t3.small"
   subnet_id              = element(tolist(data.aws_subnet_ids.public.ids), count.index)
   vpc_security_group_ids = [aws_security_group.kubernetes_workers.id]
   key_name               = var.aws_instance_key_name

@@ -4,4 +4,3 @@
    - configure-master
    - install-helm
    - configure-flux
-  # - install-prometheus
