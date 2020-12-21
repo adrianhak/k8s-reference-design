@@ -9,12 +9,6 @@ spec:
     service:
       type: LoadBalancer
     # Limit resources
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        memory: 512Mi
   chart:
     helmVersion: v3
     repository: https://helm.elastic.co/

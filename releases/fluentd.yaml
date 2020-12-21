@@ -16,12 +16,6 @@ spec:
       - name: FLUENTD_SYSTEMD_CONF
         value: disable
     # Limit resources
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        memory: 512Mi
   chart:
     helmVersion: v3
     repository: https://fluent.github.io/helm-charts
