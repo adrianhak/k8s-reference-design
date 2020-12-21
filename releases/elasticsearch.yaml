@@ -1,0 +1,15 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: elasticsearch
+  namespace: logging
+spec:
+  values:
+    # Permit co-located instances for solitary minikube virtual machines
+    antiAffinity: "soft"
+  chart:
+    helmVersion: v3
+    repository: https://helm.elastic.co/
+    name: elasticsearch
+    version: 7.10.1
+    forceUpgrade: true

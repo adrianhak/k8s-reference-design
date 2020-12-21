@@ -1,0 +1,24 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: fluentd
+  namespace: logging
+spec:
+  values:
+    # Environmental variables. Mainly for disabling systemd inputs for cleaner logs
+    env:
+      - name:  FLUENT_ELASTICSEARCH_HOST
+        value: "elasticsearch-master.logging.svc.cluster.local"
+      - name:  FLUENT_ELASTICSEARCH_PORT
+        value: "9200"
+      - name: FLUENT_ELASTICSEARCH_SCHEME
+        value: "http"
+      - name: FLUENTD_SYSTEMD_CONF
+        value: disable
+    # Limit resources
+  chart:
+    helmVersion: v3
+    repository: https://fluent.github.io/helm-charts
+    name: fluentd
+    version: 0.1.4
+    forceUpgrade: true
