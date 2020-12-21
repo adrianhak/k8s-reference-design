@@ -1,4 +1,4 @@
 ghuser: adrianhak
-repo_name: flux-test-repo
+repo_name: k8s-reference-design
 secret_name: flux-git-deploy
 git_branch: monitoring
