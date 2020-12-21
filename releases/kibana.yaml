@@ -1,12 +1,23 @@
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: kube-kibana
+  name: kibana
   namespace: logging
 spec:
+  values:
+    # Change type from CluserIP to LoadBalancer
+    service:
+      type: LoadBalancer
+    # Limit resources
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
   chart:
     helmVersion: v3
-    repository: https://github.com/elastic/kibana
-    name: kube-kibana
+    repository: https://helm.elastic.co/
+    name: kibana
     version: 7.10.1
-    forceUpgrade: true
+    forceUpgrade: true 

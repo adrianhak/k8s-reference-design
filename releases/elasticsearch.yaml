@@ -1,0 +1,32 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: elasticsearch
+  namespace: logging
+spec:
+  values:
+    # Permit co-located instances for solitary minikube virtual machines
+    antiAffinity: "soft"
+    # Shrink default JVM heap
+    esJavaOpts: "-Xmx128m -Xms128m"
+    # Limit resources
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "512Mi"
+      limits:
+        cpu: "300m"
+        memory: "512Mi"
+    # Request smaller persistent volumes
+    volumeClaimTemplate:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 100M
+  chart:
+    helmVersion: v3
+    repository: https://helm.elastic.co/
+    name: elasticsearch
+    version: 7.10.1
+    forceUpgrade: true
