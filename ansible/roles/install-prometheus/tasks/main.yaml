@@ -1,2 +1,0 @@
-- import_tasks: helm.yaml
-- import_tasks: kube-prometheus.yaml
