@@ -19,10 +19,23 @@
   become: yes
   shell: kubectl create namespace flux
 
+# copy ssh key for git access
+- name: copy ssh key for git access
+  become: yes
+  copy:
+    src: flux-git-deploy
+    dest: .kube/flux-git-deploy
+    mode: 400 
+
+# add secret for flux to use
+- name: add secret for flux to use
+  become: yes
+  shell: kubectl -n flux create secret generic flux-git-deploy --from-file=identity=/home/ubuntu/.kube/flux-git-deploy
+
   # - install flux
 - name: install flux
   become: yes
-  shell: helm upgrade -i flux --set git.url=git@github.com:{{ ghuser }}/{{ repo_name }} --set git.branch={{ git_branch }} --set git.path=releases --namespace flux fluxcd/flux
+  shell: helm upgrade -i flux --set git.url=git@github.com:{{ ghuser }}/{{ repo_name }} --set git.branch={{ git_branch }} --set git.path=releases --set git.secretName=flux-git-deploy --namespace flux fluxcd/flux
 
   # - install helm operator
 - name: install helm operator
