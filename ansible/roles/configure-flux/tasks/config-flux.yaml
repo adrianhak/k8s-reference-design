@@ -22,7 +22,7 @@
   # - install flux
 - name: install flux
   become: yes
-  shell: helm upgrade -i flux --set git.url=git@github.com:{{ ghuser }}/{{ repo_name }} --set git.branch={{ git_branch }} --set git.path=releases --namespace flux fluxcd/flux
+  shell: helm upgrade -i flux --set git.url=git@github.com:{{ ghuser }}/{{ repo_name }} --set git.branch={{ git_branch }} --set git.path="releases\,namespaces" --namespace flux fluxcd/flux
 
   # - install helm operator
 - name: install helm operator
