@@ -7,7 +7,7 @@ spec:
   chart:
     repository: https://stefanprodan.github.io/podinfo
     name: podinfo
-    version: 5.1.1
+    version: 5.1.2
   values:
     serviceMonitor:
       enabled: false
