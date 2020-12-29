@@ -15,3 +15,5 @@ spec:
     backend: http://backend-podinfo:9898/echo
     hpa:
       enabled: true
+    service:
+      type: NodePort
