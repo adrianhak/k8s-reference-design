@@ -26,6 +26,12 @@ variable "ssh_access_cidr_block" {
   description = "IPs allowed to access master nodes via SSH"
 }
 
+variable "instance_type" {
+  type        = string
+  default     = "t3.small"
+  description = "The EC2 instance type to deploy"
+}
+
 variable "region" {
   type        = string
   default     = "eu-north-1"
